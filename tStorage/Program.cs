@@ -14,7 +14,13 @@ namespace tStorage
 
             swatch.Start();
 
+            tStorage.tEngine tstorage = new tEngine();
+            tstorage.open_storage("test");
+            //tstorage.create("root");
+            tstorage.create("root::sub");
+
             swatch.Stop();
+
             Console.WriteLine("elapsed msec: {0}, ticks: {1}", swatch.ElapsedMilliseconds, swatch.ElapsedTicks);
             Console.ReadKey();
         }
