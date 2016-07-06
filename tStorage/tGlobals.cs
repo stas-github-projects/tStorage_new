@@ -12,8 +12,12 @@ namespace tStorage
         internal class tGlobals
         {
             internal tService _service;
+            internal tDataTypes _data_types;
             internal tGlobals()
-            { _service = new tService(this); }
+            { 
+                _service = new tService(this);
+                _data_types = new tDataTypes();
+            }
 
             internal string storage_name = "";
             internal long storage_created = 0;

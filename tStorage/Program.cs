@@ -17,7 +17,8 @@ namespace tStorage
             tStorage.tEngine tstorage = new tEngine();
             tstorage.open_storage("test");
             //tstorage.create("root");
-            tstorage.create("root::sub");
+            tstorage.create("root::sub", true);
+            tstorage.create("root::23", 1);
 
             swatch.Stop();
 

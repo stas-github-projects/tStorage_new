@@ -9,11 +9,12 @@ namespace tStorage
 
     public partial class tEngine
     {
-        private tGlobals _globals = new tGlobals();
-        private tTree _tree;// = new tTree();
+        private static tGlobals _globals = new tGlobals();
+        private tTree.NodeCollection _tree;// = new tTree();
 
         public tEngine()
-        { _tree = new tTree(_globals); }
+        { _tree = new tTree.NodeCollection(); }//_globals); }
+
         public bool open_storage(string storage_name)
         {
             bool bool_ret = false;
@@ -86,8 +87,8 @@ namespace tStorage
         {
             bool bool_ret = false;
 
-            _tree._add(key, data, reseved_length);
-            bool_ret = _tree._get_status();
+            bool_ret = _tree.add(key, ref data);//, reseved_length);
+            //bool_ret = _tree._get_status();
 
             return bool_ret;
         }
