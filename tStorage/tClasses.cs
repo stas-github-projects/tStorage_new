@@ -67,6 +67,16 @@ namespace tStorage
                     this.data_pos = 0;
                     this.data_type = data_type;
                 }
+                internal byte[] get_bytes()
+                {
+                    int ipos = 0;
+                    byte[] b_out = new byte[_globals.storage_record_item_length + _globals.storage_record_key_name_max_length];
+
+                    //b_out.in
+
+                    return b_out;
+                }
+
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

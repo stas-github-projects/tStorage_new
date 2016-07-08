@@ -19,6 +19,11 @@ namespace tStorage
             {
                 return input.Split(_globals.storage_crud_delimeter, StringSplitOptions.RemoveEmptyEntries);
             }
+
+            internal void InsertBytes(ref byte[] where, byte what, int start_pos, int length)
+            {
+
+            }
         }
 
     }
