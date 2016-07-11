@@ -36,6 +36,10 @@ namespace tStorage
             internal int storage_record_key_name_max_length = 10;
             internal int storage_record_item_length = 38;
 
+            internal ushort record_page_max_records_per_page = 3;
+            internal ushort record_page_free_cells = 0;
+            internal long record_page_current_pos = 0;
+
         }
     }
 

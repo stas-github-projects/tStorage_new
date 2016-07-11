@@ -13,7 +13,7 @@ namespace tStorage
         private tTree.NodeCollection _tree;// = new tTree();
 
         public tEngine()
-        { _tree = new tTree.NodeCollection(); }//_globals); }
+        { _tree = new tTree.NodeCollection(); _globals.record_page_free_cells = _globals.record_page_max_records_per_page; }
 
         public bool open_storage(string storage_name)
         {
