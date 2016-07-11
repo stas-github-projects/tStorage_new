@@ -101,12 +101,22 @@ namespace tStorage
         {
             bool bool_ret = false;
 
-            int i = 0, ireccount = tTree.lst_records_to_save.Count, ibyteslength = (ireccount * (_globals.storage_record_item_length + _globals.storage_record_key_name_max_length));
+            int i = 0, ireccount = 0, ibyteslength = 0;//(ireccount * (_globals.storage_record_item_length + _globals.storage_record_key_name_max_length));
 
             if (ireccount == 0) { return false; }
             //start creating
-            byte[] b_records = new byte[ireccount]; //buffer for all records
+            //byte[] b_records = new byte[ireccount]; //buffer for all records
 
+            //pages
+            List<byte[]> lst_pages_to_save = new List<byte[]>();
+
+            for (i = 0; i < tTree.lst_records_to_save.Count; i++)
+            {
+                if (_globals.record_page_free_cells == 0)
+                {
+
+                }
+            }//for
 
             return bool_ret;
         }
