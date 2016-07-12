@@ -41,7 +41,7 @@ namespace tStorage
             //save list
             public static List<int> lst_records_to_save = new List<int>(10);
             public static List<int> lst_data_to_save = new List<int>(10);
-            public static List<string> lst_uuu = new List<string>();
+            //public static List<string> lst_uuu = new List<string>();
 
 
             public class Record
@@ -72,7 +72,16 @@ namespace tStorage
                     int ipos = 0;
                     byte[] b_out = new byte[_globals.storage_record_item_length + _globals.storage_record_key_name_max_length];
 
-                    //b_out.in
+                    byte b_enable = 1;
+                    _globals._service.InsertByte(b_out, b_enable, ipos); ipos++; //active
+                    _globals._service.InsertByte(b_out, data_type, ipos); ipos++; //data type
+                    _globals._service.InsertBytes(b_out, BitConverter.GetBytes(parent_id), ipos); ipos += 8; //parent id
+                    _globals._service.InsertBytes(b_out, BitConverter.GetBytes(current_id), ipos); ipos += 8; //current id
+                    _globals._service.InsertBytes(b_out, BitConverter.GetBytes(created_at), ipos); ipos += 8; //time
+                    _globals._service.InsertByte(b_out, is_unix_time, ipos); ipos++; //is unix time
+                    _globals._service.InsertBytes(b_out, BitConverter.GetBytes(data_pos), ipos); ipos += 8; //data pos
+                    _globals._service.InsertBytes(b_out, BitConverter.GetBytes(data_length), ipos); ipos += 4; //data length
+                    _globals._service.InsertBytes(b_out, Encoding.ASCII.GetBytes(current_key), ipos); //current key
 
                     return b_out;
                 }

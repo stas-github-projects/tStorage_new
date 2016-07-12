@@ -13,7 +13,10 @@ namespace tStorage
         private tTree.NodeCollection _tree;// = new tTree();
 
         public tEngine()
-        { _tree = new tTree.NodeCollection(); _globals.record_page_free_cells = _globals.record_page_max_records_per_page; }
+        {
+            _tree = new tTree.NodeCollection();
+            _globals.record_page_free_cells = _globals.record_page_max_records_per_page;
+        }
 
         public bool open_storage(string storage_name)
         {
@@ -91,6 +94,9 @@ namespace tStorage
         {
             bool bool_ret = false;
 
+            if (_globals.storage_virtual_length == 0) //saves storage length before first add
+            { _globals.storage_virtual_length = _globals.storage_stream_length; }
+
             bool_ret = _tree.add(key, ref data);//, reseved_length);
             //bool_ret = _tree._get_status();
 
@@ -101,22 +107,52 @@ namespace tStorage
         {
             bool bool_ret = false;
 
-            int i = 0, ireccount = 0, ibyteslength = 0;//(ireccount * (_globals.storage_record_item_length + _globals.storage_record_key_name_max_length));
+            int i = 0, ipos = 0, ireccount = tTree.lst_records_to_save.Count, ifullrecordlength = _globals.storage_record_item_length + _globals.storage_record_key_name_max_length; //(ireccount * (_globals.storage_record_item_length + _globals.storage_record_key_name_max_length));
 
             if (ireccount == 0) { return false; }
             //start creating
-            //byte[] b_records = new byte[ireccount]; //buffer for all records
+            byte[] b_records = new byte[0];// = new byte[ireccount]; //buffer for all records
 
-            //pages
+            //make pages
             List<byte[]> lst_pages_to_save = new List<byte[]>();
 
-            for (i = 0; i < tTree.lst_records_to_save.Count; i++)
+            for (i = 0; i < ireccount; i++)
             {
-                if (_globals.record_page_free_cells == 0)
+                if (_globals.record_page_free_cells == _globals.record_page_max_records_per_page) //create new record
                 {
+                    ipos = 2 + 8;
+                    b_records = new byte[_globals.record_page_max_records_per_page * ifullrecordlength + ipos];
+                    _globals._service.InsertBytes(b_records, tTree.lst_records[tTree.lst_records_to_save[i]].get_bytes(), ipos);
+                    ipos += ifullrecordlength;
+                    _globals.record_page_free_cells--;
+                }
+                else if (_globals.record_page_free_cells == 0) //save existing data
+                {
+                    //add free cells and next page pos (new pos = size of record page + size of all data chunks that belongs to this page's records)
 
+                    //add to list
+                    lst_pages_to_save.Add(b_records);
+                    _globals.record_page_free_cells = _globals.record_page_max_records_per_page;
+                }
+                else
+                {
+                    _globals._service.InsertBytes(b_records, tTree.lst_records[tTree.lst_records_to_save[i]].get_bytes(), ipos);
+                    ipos += ifullrecordlength;
+                    _globals.record_page_free_cells--;
                 }
             }//for
+            //additional checking
+            if (_globals.record_page_free_cells == 0) //save existing data
+            {
+                lst_pages_to_save.Add(b_records);
+            }
+
+            //save pages
+
+
+            //clear
+            _globals.storage_virtual_length = 0;
+            tTree.lst_data_to_save.Clear(); tTree.lst_records_to_save.Clear();
 
             return bool_ret;
         }

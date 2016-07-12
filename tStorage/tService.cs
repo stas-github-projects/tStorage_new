@@ -24,6 +24,14 @@ namespace tStorage
             {
                 InsertBytes(_src, ref _what, _pos, _length);
             }
+            internal void InsertByte(byte[] _src, byte _what, int _pos)
+            {
+                int _length = _src.Length;
+                if (_pos < 0) { _pos = 0; }
+                if (_pos > _length) { return; }//out of dimensions
+                _src[_pos] = _what;
+            }
+            /*
             internal void InsertBytes(byte[] _src, byte _what, int _pos = 0, int _length = 0)
             {
                 int i = _src.Length;
@@ -32,7 +40,7 @@ namespace tStorage
                 if (_pos + _length > i) { return; }//out of dimensions
                 //Buffer.BlockCopy(_what, 0, _src, _pos, _length);
                 _src[_pos] = _what;
-            }
+            }*/
             internal void InsertBytes(byte[] _src, ref byte[] _what, int _pos = 0, int _length = 0)
             {
                 int i = _src.Length;

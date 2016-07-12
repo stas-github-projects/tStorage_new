@@ -34,11 +34,13 @@ namespace tStorage
             internal byte[] storage_header = Encoding.ASCII.GetBytes(new char[] { 'T', 'S', 'T', '0', '1' }); //3 (identifier) + 3 (version)
             internal int storage_buf_size = 4096;
             internal int storage_record_key_name_max_length = 10;
-            internal int storage_record_item_length = 38;
+            internal int storage_record_item_length = 39;
 
             internal ushort record_page_max_records_per_page = 3;
             internal ushort record_page_free_cells = 0;
             internal long record_page_current_pos = 0;
+
+            internal long storage_virtual_length = 0;
 
         }
     }
