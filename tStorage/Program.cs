@@ -19,6 +19,7 @@ namespace tStorage
             //tstorage.create("root");
             tstorage.create("root::sub", true);
             tstorage.create("root::sub::23", 1);
+            tstorage.create("root::sub::njq", 2);
             tstorage.commit();
 
             swatch.Stop();
